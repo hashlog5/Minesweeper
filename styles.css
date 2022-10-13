@@ -20,7 +20,7 @@ body {
 }
 
 .game {
-  margin: 10%;
+  margin: 5%;
 
   display: flex;
   flex-direction: column;
