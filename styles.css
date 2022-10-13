@@ -1,0 +1,89 @@
+:root {
+  --number-of-squares-per-row: 10;
+  --square-length: 40px;
+
+  --game-grid-width: calc(
+    var(--number-of-squares-per-row) * var(--square-length) +
+      (var(--number-of-squares-per-row) - 1) * 1px
+  );
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: lightyellow;
+  color: #333;
+}
+
+.game {
+  margin: 10%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#game-dashboard {
+  width: var(--game-grid-width);
+  margin-bottom: 0.75rem;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+#reset-game-btn {
+  width: 100px;
+  height: 33px;
+  margin: 0.75rem;
+
+  border-radius: 10px;
+  background-color: lightgreen;
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+#game-grid {
+  width: var(--game-grid-width);
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+
+  cursor: pointer;
+}
+
+#game-grid.disabled {
+  pointer-events: none;
+}
+
+.square {
+  width: var(--square-length);
+  height: var(--square-length);
+
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: var(--square-length);
+}
+
+.square[data-status='hidden'] {
+  background: rgb(36, 144, 36);
+}
+
+.square[data-status='revealed'] {
+  background: rgb(146, 221, 146);
+}
+
+.square[data-status='flagged'] {
+  background: yellow;
+}
+
+.square[data-status='blown'] {
+  background: red;
+}
