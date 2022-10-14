@@ -11,4 +11,4 @@ In this project, I practiced
 
 - clean code
 - using recursion
-- core HTML, CSS, and JavaScript skills.
+- core HTML, CSS, and JavaScript skills
