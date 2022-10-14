@@ -1,22 +1,39 @@
 const gridWidth = 10;
 const gridHeight = 10;
-const numberOfSquares = gridWidth * gridHeight;
-
 const numberOfMines = 15;
+const numberOfSquares = gridWidth * gridHeight;
 const numberOfBlanks = numberOfSquares - numberOfMines;
 
 const gameGrid = document.querySelector('#game-grid');
 function createGameGrid() {
   for (let i = 0; i < numberOfSquares; i++) {
-    gameGrid.innerHTML += `<div class="square" data-index="${i}" data-square="blank" data-adj-mines="0" data-status="hidden"></div>`;
+    gameGrid.innerHTML += `
+    <div
+      class="square"
+      data-index="${i}"
+      data-square="blank"
+      data-adj-mines="0"
+      data-status="hidden">
+    </div>`;
   }
 }
 createGameGrid();
 
 const timeCounter = document.querySelector('#time-counter');
 const flagsCounter = document.querySelector('#flags-counter');
-const resetGameBtn = document.querySelector('#reset-game-btn');
 const squares = document.querySelectorAll('.square');
+const resetGameBtn = document.querySelector('#reset-game-btn');
+
+resetGameBtn.addEventListener('click', resetGame);
+
+squares.forEach((square) => {
+  square.addEventListener('contextmenu', flagSquare);
+
+  square.addEventListener('click', () => {
+    const squareNumber = parseInt(square.getAttribute('data-index'));
+    checkSquare(squareNumber);
+  });
+});
 
 let gameInitiated;
 let revealedSquares;
@@ -34,14 +51,6 @@ let countTimeId;
 let checkAdjSquaresId;
 let youWinId;
 let gameOverId;
-
-resetGameBtn.addEventListener('click', resetGame);
-squares.forEach((square) => {
-  square.addEventListener('contextmenu', flagSquare);
-  square.addEventListener('click', () => {
-    checkSquare(parseInt(square.getAttribute('data-index')));
-  });
-});
 
 function resetGame() {
   gameInitiated = false;
@@ -71,6 +80,7 @@ function setMines() {
   const tiles = mineTiles.concat(blankTiles);
 
   tiles.sort(() => Math.random() - 0.5);
+
   for (let i = 0; i < numberOfSquares; i++) {
     squares[i].setAttribute('data-square', tiles[i]);
     squares[i].setAttribute('data-status', 'hidden');
@@ -129,17 +139,17 @@ function flagSquare(e) {
   if (this.getAttribute('data-status') === 'hidden') {
     this.setAttribute('data-status', 'flagged');
     this.textContent = '🚩';
-    removeFlagCount();
+    decreaseFlagCount();
   } else if (this.getAttribute('data-status') === 'flagged') {
     this.setAttribute('data-status', 'hidden');
     this.textContent = '';
-    addFlagCount();
+    increaseFlagCount();
   }
 }
 
 function checkSquare(i) {
   if (squares[i].getAttribute('data-status') === 'revealed') return;
-  if (squares[i].getAttribute('data-status') === 'flagged') addFlagCount();
+  if (squares[i].getAttribute('data-status') === 'flagged') increaseFlagCount();
 
   if (squares[i].getAttribute('data-square') === 'mine') {
     if (gameInitiated) {
@@ -239,12 +249,12 @@ function gameOver() {
   }, 100);
 }
 
-function addFlagCount() {
+function increaseFlagCount() {
   flags++;
   flagsCounter.textContent = flags;
 }
 
-function removeFlagCount() {
+function decreaseFlagCount() {
   flags--;
   flagsCounter.textContent = flags;
 }
