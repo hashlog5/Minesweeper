@@ -29,7 +29,7 @@ body {
 
 #game-dashboard {
   width: var(--game-grid-width);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
 
   display: flex;
   justify-content: space-between;
@@ -38,7 +38,7 @@ body {
 #reset-game-btn {
   width: 100px;
   height: 33px;
-  margin: 0.75rem;
+  margin: 2.5rem;
 
   border-radius: 10px;
   background-color: lightgreen;
